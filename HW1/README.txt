@@ -9,7 +9,10 @@ This package includes the following files.
 |-- README.txt [This file]
 
 To compile:
-    gcc *.c
+    make all
+
+To cleanup project directory:
+    make clean
 
 To run:
     ./a.out <seed>
