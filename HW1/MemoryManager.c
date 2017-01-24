@@ -80,7 +80,7 @@ int get_running_count()
 	randVal = rand();
 	iterCount = get_iteration_count(randVal);
 	
-	printf("[MemoryManager] Number of iterations: %d\n", iterCount);	
+	printf("[MemoryManager] Number of Iterations: %d\n", iterCount);	
 
 	for(int i = 0; i < iterCount; i++){
 		//Randomly generate array size
