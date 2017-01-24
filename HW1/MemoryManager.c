@@ -73,42 +73,34 @@ int get_arr_size(int rand)
  */
 int get_running_count()
 {
-    // TODO: Implement this method.
-	//1
-	int iterVal = rand();
-	int iterCount = get_iteration_count(iterVal);
-	
-	for(int i = 0; i < iterCount; i++){
-	//2a
-		int sizeVal = rand();
-		int arrSize = get_arr_size(sizeVal);
-	
-	//2b
-		int *a = (int*)calloc(arrSize, sizeof(int));
-	//2c
-		for(int i = 0; i < arrSize; i++){
-			a[i] = rand();
-			
-		}
-	
-	//	printf("%d", a[1]);
-	//2d
-		int temp, median;
-	//sort array in ascending order
-		for(int i = 0; i < arrSize; i++){
-			for(int j = i + 1; j < arrSize; j++){
-				if(a[i] > a[j]){
-					temp = a[i];
-					a[i] = a[j];
-					a[j] = temp;
-				}
-			}
-		}
-	//get median	
-		
+	int iterCount, randVal, medianCount;
+	medianCount = 0;
 
+	randVal = rand();
+	iterCount = get_iteration_count(randVal);
+	
+	printf("[MemoryManager] Number of iterations: %d\n", iterCount);	
+
+	for(int i = 0; i < iterCount; i++){
+		randVal = rand();
+		int arrSize = get_arr_size(randVal);
+		
+		int *a = (int*)calloc(arrSize, sizeof(int));
+
+		for(int j = 0; j < arrSize; j++){
+			a[j] = rand();
+		}
+		
+		int median;
+		median = return_median(a, arrSize);
+		
+		if(median % 13 == 0){
+			medianCount++;
+		}
+		
+		free(a);
 	}
 	
+	return medianCount;
 
-	
 }
