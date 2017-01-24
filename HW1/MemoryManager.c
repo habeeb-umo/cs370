@@ -75,32 +75,40 @@ int get_running_count()
 {
 	int iterCount, randVal, medianCount;
 	medianCount = 0;
-
+	
+	//Randomly generate number of iterations
 	randVal = rand();
 	iterCount = get_iteration_count(randVal);
 	
 	printf("[MemoryManager] Number of iterations: %d\n", iterCount);	
 
 	for(int i = 0; i < iterCount; i++){
+		//Randomly generate array size
 		randVal = rand();
 		int arrSize = get_arr_size(randVal);
 		
+		//Dynamically allocate array
 		int *a = (int*)calloc(arrSize, sizeof(int));
-
+		
+		//Fill array with random values
 		for(int j = 0; j < arrSize; j++){
 			a[j] = rand();
 		}
 		
+		//Get median of array
 		int median;
 		median = return_median(a, arrSize);
 		
+		//If median is divisible by 13, count it!
 		if(median % 13 == 0){
 			medianCount++;
 		}
 		
+		//Free dynamically allocated vars
 		free(a);
 	}
 	
+	//Return number of medians divisible by 13
 	return medianCount;
 
 }
