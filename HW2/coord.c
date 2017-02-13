@@ -4,31 +4,31 @@
 #include <sys/wait.h>
 
 int main(int argc, const char* argv[]) {
-
+	//If there are not enough arguments, throw a usage error
 	if( (argc != 6) ){
 	
-		printf ("Usage: ./coordinator <divisor> <dividend> <dividend> <dividend> <dividend>\n");
+		printf ("Usage: ./coordinator <divisor> <dividend1> <dividend2> <dividend3> <dividend4>\n");
 		return 0;
 	
 	}
-
+	//For each argument, perform fork a process to check
 	for(int i = 2; i < 6; i++){
 		
 		pid_t retVal = fork();	
-		
+		//If the fork returns -1, it failed
 		if(retVal < 0){
 			
 			printf("Failed to fork!\n");
 			return 0;
 		}	
-
+		//If the fork returns anything > 0, that is the pid of the child
 		if(retVal != 0){
 			
 			int status;
 
 			printf("Coordinator: forked process with ID %d.\n", retVal);
 			printf("Coordinator: waiting for process [%d].\n", retVal);	
-
+			//If the status of the process after wait == 0, not divisible, else it is divisible
 			if(wait(&status) >= 0){
 
 				if(WEXITSTATUS(status) != 0){
