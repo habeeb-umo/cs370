@@ -15,69 +15,63 @@ int main(int argc, const char* argv[]) {
 	}
 
 		int shmids[4];
-		int shmptrs[4];
 		pid_t retVals[4];
-	//For each argument, perform fork a process to check
-		for(int i = 0; i < 4; i++){
-
+		int holder = 0;
+		int holder2 = 2;
+	//For each argument, create a pipe, shmid and fork a process to check
+		for(int i = 2; i < 6; i++){
 		int fd[2];	
 		int shmid = shmget(IPC_PRIVATE, sizeof(int), 0664 | IPC_CREAT);
-		shmids[i] = shmid;
+		shmids[holder] = shmid;
 		pipe(fd);
-		write(fd[1], &shmid, sizeof(int));
 				
 		pid_t retVal = fork();
-		retVals[i] = retVal;
+		retVals[holder] = retVal;
 	
 			//If the fork returns -1, it failed
 			if(retVal < 0){
-			
+				close(fd[0]);
+				close(fd[1]); 
 				printf("Failed to fork!\n");
 				return 0;
 			}	
 			//If the fork returns anything > 0, that is the pid of the child
 			if(retVal != 0){
-
+				close(fd[0]);
+				write(fd[1], &shmids[holder], sizeof(int));
 				printf("Coordinator: forked process with ID %d.\n", retVal);
-				printf("Coordinator: wrote shm ID %d to pipe (%d bytes).\n", shmid, sizeof(shmid));
-				printf("Coordinator: waiting for process [%d].\n", retVal);	
+				printf("Coordinator: wrote shm ID %d to pipe (%d bytes)\n", (int)shmid, (int)sizeof(shmid));
 				//If the status of the process after wait == 0, not divisible, else it is divisible
 			}	
 			else{
+				close(fd[1]);
 				//Read end of pipe int to char*
-				char read_end[20];
+				char read_end[1];
 				sprintf(read_end, "%d", fd[0]);
 
-				printf("Checker process [%d]: Starting.\n", getpid());
 				execlp("./checker", argv[1], argv[i], read_end, (char *) NULL);	
 			}
+			holder++;
 		}
 		for(int i = 0; i < 4; i++){
 		int status;
-	
+		printf("Coordinator: waiting on child process ID %d. . .\n", retVals[i]);	
 		if(waitpid(retVals[i], &status, 0) >= 0){
-
-			
-			if(WEXITSTATUS(status) != 0){
+				
+				if(WEXITSTATUS(status) != 0){
+				printf("Coordinator: result 1 read from shared memory: %d is divisible by %d.\n", atoi(argv[holder2]), atoi(argv[1]));
+				shmctl(shmids[i], IPC_RMID, NULL);	
+				}
+				else
+				printf("Coordinator: result 0 read from shared memory: %d is not divisible by %d.\n", atoi(argv[holder2]), atoi(argv[1]));
+				shmctl(shmids[i], IPC_RMID, NULL);
+				}	
+	
+		holder2++;
+		}	
 		
-				printf("Checker process [%d]: %d *IS* divisible by %d.\n", retVals[i], atoi(argv[i]), atoi(argv[1]));
-				printf("Checker process [%d]: Returning 1.\n", retVals[i]);
-				printf("Coordinator: child process %d returned 1.\n", retVals[i]);
-			}
-			else{
+		
 
-				printf("Checker process [%d]: %d *IS NOT* divisible by %d.\n", retVals[i], atoi(argv[i]), atoi(argv[1]));
-				printf("Checker process [%d]: Returning 0.\n", retVals[i]);
-				printf("Coordinator: child process %d returned 0.\n", retVals[i]);
-			}
-		}
-			
-	
-	
-	}
-	
 	printf("Coordinator: exiting.\n");
 	return 0;
-	
 }
-
