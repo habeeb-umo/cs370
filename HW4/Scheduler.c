@@ -122,7 +122,7 @@ void FCFS(struct Process Processes[], int number)
 {
 
     //---------Start Processing
-  	struct Gantt* Rows = calloc(1000,sizeof(struct Gantt));
+  	struct Gantt* Rows = calloc(1500,sizeof(struct Gantt));
 
 	for(int i = 0; i < number; i++){
 		for(int j = 0; j < number; j++){
@@ -164,7 +164,7 @@ void FCFS(struct Process Processes[], int number)
 	
 	for(int i = 0; i < number; i++){
 		Processes[i].TurnAroundTime = Rows[i].End_Time - Processes[i].Arrival_Time;
-		 
+		Processes[i].WaitTime = Processes[i].TurnAroundTime - Processes[i].Burst_Duration;
 	}
 	
 	
@@ -177,6 +177,7 @@ void FCFS(struct Process Processes[], int number)
 //---------------------SJFP---------------------------------------
 void SJFP(struct Process Processes[],int number){
     //---------Start Processing
+
     //---------End of Processing
   
 

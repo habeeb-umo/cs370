@@ -99,6 +99,6 @@ PROCESS ID	ARRIVAL TIME	END TIME
          2      2586      2628
         21      2628      2645
         17      2645      2652
-Average Wait Time=1370.900024
+Average Wait Time=1297.729980
 TurnAround Time=1324.250000
 Throughput=0.037707
