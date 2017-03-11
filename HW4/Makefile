@@ -1,10 +1,10 @@
 #Makefile
 
 all:
-	gcc -Wall Scheduler.c 
+	gcc -Wall -o Scheduler Scheduler.c 
 
 
 clean: 
-	rm checker coordinator
+	rm Scheduler FCFS
 
 

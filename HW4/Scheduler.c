@@ -176,31 +176,7 @@ void FCFS(struct Process Processes[], int number)
 }
 //---------------------SJFP---------------------------------------
 void SJFP(struct Process Processes[],int number){
-    //---------Start Processing
-   struct Gantt* Rows = calloc(1500,sizeof(struct Gantt));
-   int rem_time[10];
-   int remaining = 0;
-   int end_time;
-   rem_time[9] = 9999;
-	for(int time = 0; remaining != number; time++){
-		int smallest = 9;
-		for(int i = 0; i < number; i++){
-			if((Processes[i].Arrival_Time <= time) && (rem_time[i] < rem_time[smallest]) && (rem_time[i] > 0)){
-				smallest = i;
-			}
-		}
-	rem_time[smallest]--;
-	if(rem_time[smallest] == 0){
-		remaining++;
-		Rows[time].End_Time = time + 1;
-		Processes[time].TurnAroundTime = 		
-	}	
-	}
-    //---------End of Processing
-  Display_Output(Processes, number, Rows, number, "SJF");	
-
-
-}
+    //---------Start Pro}
 //------------------PRIORITY-------------------------------------
 void PRIORITY(struct Process Processes[], int number){
      //---------Start Processing
