@@ -177,7 +177,21 @@ void FCFS(struct Process Processes[], int number)
 //---------------------SJFP---------------------------------------
 void SJFP(struct Process Processes[],int number){
     //---------Start Processing
-
+   int rem_time[1000];
+   int remaining = 0;
+	for(int time = 0; remaining != number; time++){
+		smallest = 9;
+		for(int i = 0; i < number; i++){
+			if((Processes[i].Arrival_Time <= time) && (rem_time[i] < rem_time[smallest]) && (rem_time[i] > 0)){
+				smallest = i;
+			}
+		}
+	rem_time[smallest]--;
+	if(rem_time[smallest] == 0){
+		remaining++;
+	//HERE
+	}	
+	}
     //---------End of Processing
   
 
