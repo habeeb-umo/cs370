@@ -11,5 +11,6 @@ public class BoundedBuff {
 			c.interrupt();
 		} catch (InterruptedException e){
 		}
+		System.out.println("Exiting!");
 	}
 }
