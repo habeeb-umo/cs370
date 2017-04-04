@@ -1,6 +1,6 @@
 
 public class Buff extends Thread {
-	int MAX_SIZE = 10;
+	int MAX_SIZE = 1000;
 	private int buffEnd;
 	private int buffStart;
 	private int buffSize;

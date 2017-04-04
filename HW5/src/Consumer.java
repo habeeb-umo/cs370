@@ -1,28 +1,22 @@
 
 public class Consumer extends Thread{
 	private final Buff buff;
-	double cumsum;
-	double consumed;
+	int count;
 	
 	public Consumer(Buff b){
 		buff = b;
-		consumed = 0;
-		cumsum = 0;
+		count = 0;
 	}
 	
 	public void run(){
-		while(!Thread.currentThread().isInterrupted()){
-			if(consumed == 10){
-				System.exit(-1);
+		double cumsum = 0;
+		while(count < 1000000){
+			cumsum += buff.extract();
+			if(((count % 100000) == 0) && (count > 0)){
+				System.out.printf("Consumer: Consumed %,d items, Cumulative value of consumed items=%.3f\n", count, cumsum);
 			}
-			double extracted = buff.extract();
-			cumsum += extracted;
-			System.out.println("Extracted: " + extracted);
-			if(extracted > -1){
-			buff.bufferValueCounter--;
-			consumed++;
-			}else System.exit(-1);
+			count++;
 		}
-		System.out.println("total: cumsum");
+		System.out.printf("Finished consuming %,d items\n", count);
 	}
 }
